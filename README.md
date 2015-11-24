@@ -13,7 +13,7 @@ Be free to make sugestions and comment.
 
 1. Download the project.
 2. Activate virtualenv: <code> source ~/flask-jquery-fileupload/venv/bin/activate </code>
-3. Install requirements.txt: <code> pip install requirements.txt </code>
+3. Install requirements.txt (just to be sure): <code> pip install requirements.txt </code>
 4. Init database: <code> ~/flask-jquery-fileupload/manage.py db init </code>
 5. Migrate: <code> ~/flask-jquery-fileupload/manage.py db migrate </code>
 6. Run server: <code> ~/flask-jquery-fileupload/manage.py runserver </code>
