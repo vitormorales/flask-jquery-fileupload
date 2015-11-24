@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'js/jquery-file-upload/css/jquery.fileupload.css') }}">
+    {%  block scripts %}
+        {{ super() }}
+
+        <script src="//blueimp.github.io/JavaScript-Load-Image/js/load-image.all.min.js"></script>
+
+
+        <script src="{{ url_for('static', filename = 'js/jquery-file-upload/js/vendor/jquery.ui.widget.js') }}"></script>
+        <script src="{{ url_for('static', filename = 'js/javascript-templates/tmpl.min.js') }}"></script>
+        <script src="{{ url_for('static', filename = 'js/jquery-file-upload/js/jquery.iframe-transport.js') }}"></script>
+        <script src="{{ url_for('static', filename = 'js/jquery-file-upload/js/jquery.fileupload.js') }}"></script>
+        <script src="{{ url_for('static', filename = 'js/jquery-file-upload/js/jquery.fileupload-process.js') }}"></script>
+        <script src="{{ url_for('static', filename = 'js/jquery-file-upload/js/jquery.fileupload-image.js') }}"></script>
+        <script src="{{ url_for('static', filename = 'js/jquery-file-upload/js/jquery.fileupload-validate.js') }}"></script>
+        <script src="{{ url_for('static', filename = 'js/jquery-file-upload/js/jquery.fileupload-ui.js') }}"></script>
+
+        <script>
+            $(function () {
+                {# Get your upload form by ID #}
+                $('#fileupload_form').fileupload({
+                    url: "{{ url_for('main.upload_image') }}",
+                    downloadTemplateId: null {# if null by default search script with id='template-upload' #}
+                });
+            });
+        </script>
+        {# Javascript Template used by JQuery File Upload.#}
+        <script id="template-upload" type="text/x-tmpl">
+            {% raw %}
+            {% for (var i=0, file; file=o.files[i]; i++) { %}
+                <tr class="template-upload fade" >
+                    <td>
+                        <span class="preview"></span>
+                    </td>
+                    <td style="max-width: 20%">
+                        <p class="name">{%=file.name%}</p>
+                        <strong class="error text-danger"></strong>
+                    </td>
+                    <td>
+                        <p class="size">Processing</p>
+                        <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress-bar progress-bar-success" style="width:0%;"></div></div>
+                    </td>
+                    <td>
+                        {% if (!i && !o.options.autoUpload) { %}
+                            <button class="btn btn-primary start" disabled>
+                                <i class="glyphicon glyphicon-upload"></i>
+                                <span>Send</span>
+                            </button>
+                        {% } %}
+                        {% if (!i) { %}
+                            <button class="btn btn-warning cancel">
+                                <i class="glyphicon glyphicon-ban-circle"></i>
+                                <span>Cancel</span>
+                            </button>
+                        {% } %}
+                    </td>
+                </tr>
+            {% } %}
+            {% endraw %}
+        </script>
+    {% endblock %}
+{% endblock %}
+
+
+{% block page_content %}
+<form id="fileupload_form" method="POST" action="{{ url_for('main.upload_image') }}" enctype="multipart/form-data">
+    <!-- Redirect browsers with JavaScript disabled to the origin page -->
+    <div class="box-header with-border">
+        <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
+        <div class="row fileupload-buttonbar">
+            <div class="col-lg-5">
+                <!-- The fileinput-button span is used to style the file input field as button -->
+                <span class="btn btn-success fileinput-button">
+                    <i class="glyphicon glyphicon-plus"></i>
+                    <span>Add images</span>
+                    <input  type="file"  name="file" multiple>
+                </span>
+                <button type="submit" class="btn btn-primary start">
+                    <i class="glyphicon glyphicon-upload"></i>
+                    <span>Send</span>
+                </button>
+                <button type="reset" class="btn btn-warning cancel">
+                    <i class="glyphicon glyphicon-ban-circle"></i>
+                    <span>Cancel</span>
+                </button>
+            </div>
+            <div class="col-lg-5 fileupload-progress fade">
+                <!-- The global progress bar -->
+                <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                    <div class="progress-bar progress-bar-success" style="width:0%;"></div>
+                </div>
+                <!-- The extended global progress state -->
+                <div class="progress-extended">&nbsp;</div>
+            </div>
+        </div>
+    </div>
+    <div class="box-body">
+        <!-- The table listing the files available for upload -->
+        <table role="presentation" class="table table-striped"><tbody class="files"></tbody></table>
+    </div>
+</form>
+{% endblock %}
+
+
