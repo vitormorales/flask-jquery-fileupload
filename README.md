@@ -1,4 +1,4 @@
-#  Flask + JQuery File Upload + Bootstrap
+#  Flask + JQuery File Upload + Bootstrap UI
 
 This a sample of upload with
 
